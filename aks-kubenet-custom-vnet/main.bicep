@@ -1,7 +1,7 @@
 targetScope = 'subscription'
 
 param location string = 'southcentralus'
-param resourcePrefix string = 'aks-kubenet-custom-vnet-bicep'
+param resourcePrefix string = 'aks-kubenet-byo-vnet-bicep'
 
 var aksResourceGroupName = '${resourcePrefix}-rg'
 var vnetResourceGroupName = 'vnet-${resourcePrefix}-rg'
