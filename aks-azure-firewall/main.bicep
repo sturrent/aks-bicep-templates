@@ -387,6 +387,7 @@ module aksIdentity 'Identity/userassigned.bicep' = {
   name: 'aksIdentity'
   params: {
     basename: baseName
+    location: location
   }
 }
 
@@ -395,6 +396,7 @@ module aksCluster 'aks/privateaks.bicep' = {
   name: 'aksCluster'
   params: {
     basename: baseName
+    location: location
     subnetId: subnetaks.id
     identity: {
       '${aksIdentity.outputs.identityid}' : {}
