@@ -2,10 +2,11 @@ param basename string
 param subnetId string
 param identity object
 param principalId string
+param location string
 
 resource aksCluster 'Microsoft.ContainerService/managedClusters@2021-03-01' = {
-  name: '${basename}aks'
-  location: resourceGroup().location
+  name: basename
+  location: location
   identity: {
     type: 'UserAssigned'
     userAssignedIdentities: identity
