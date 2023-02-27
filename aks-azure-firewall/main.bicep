@@ -354,7 +354,10 @@ module routetable 'vnet/routetable.bicep' = {
   params: {
     location: location
     rtName: 'aks-udr'
-  } 
+  }
+  dependsOn: [
+    azfirewall
+  ] 
 }
 
 module routetableroutes 'vnet/routetableroutes.bicep' = {
@@ -369,6 +372,9 @@ module routetableroutes 'vnet/routetableroutes.bicep' = {
       addressPrefix: '0.0.0.0/0'      
     }
   }
+  dependsOn: [
+    routetable
+  ] 
 }
 
 resource subnetaks 'Microsoft.Network/virtualNetworks/subnets@2020-11-01' existing = {
@@ -395,4 +401,7 @@ module aksCluster 'aks/privateaks.bicep' = {
     }
     principalId: aksIdentity.outputs.principalId
   }
+  dependsOn: [
+    routetableroutes
+  ] 
 }
