@@ -34,7 +34,7 @@ param spokeVNETdefaultSubnet object = {
 var aksrgName = '${baseName}-RG'
 var fwrgName = '${baseName}-RG'
 
-module aksrg 'modules/resource-group/rg.bicep' = {
+module aksrg 'resource-group/rg.bicep' = {
   name: aksrgName
   params: {
     rgName: aksrgName
@@ -42,7 +42,7 @@ module aksrg 'modules/resource-group/rg.bicep' = {
   }
 }
 
-module fwrg 'modules/resource-group/rg.bicep' = {
+module fwrg 'resource-group/rg.bicep' = {
   name: fwrgName
   params: {
     rgName: fwrgName
@@ -50,7 +50,7 @@ module fwrg 'modules/resource-group/rg.bicep' = {
   }
 }
 
-module vnethub 'modules/vnet/vnet.bicep' = {
+module vnethub 'vnet/vnet.bicep' = {
   scope: resourceGroup(fwrg.name)
   name: 'hub-VNet'
   params: {
@@ -69,7 +69,7 @@ module vnethub 'modules/vnet/vnet.bicep' = {
   ]
 }
 
-module vnetspoke 'modules/vnet/vnet.bicep' = {
+module vnetspoke 'vnet/vnet.bicep' = {
   scope: resourceGroup(aksrg.name)
   name: 'spoke-VNet'
   params: {
@@ -97,7 +97,7 @@ module vnetspoke 'modules/vnet/vnet.bicep' = {
   ]
 }
 
-module vnetpeeringhub 'modules/vnet/vnetpeering.bicep' = {
+module vnetpeeringhub 'vnet/vnetpeering.bicep' = {
   scope: resourceGroup(fwrg.name)
   name: 'vnetpeering'
   params: {
@@ -113,7 +113,7 @@ module vnetpeeringhub 'modules/vnet/vnetpeering.bicep' = {
   }
 }
 
-module vnetpeeringspoke 'modules/vnet/vnetpeering.bicep' = {
+module vnetpeeringspoke 'vnet/vnetpeering.bicep' = {
   scope: resourceGroup(aksrg.name)
   name: 'vnetpeeringspoke'
   params: {
@@ -129,7 +129,7 @@ module vnetpeeringspoke 'modules/vnet/vnetpeering.bicep' = {
   }
 }
 
-module publicipfw 'modules/vnet/publicip.bicep' = {
+module publicipfw 'vnet/publicip.bicep' = {
   scope: resourceGroup(fwrg.name)
   name: 'publicipfw'
   params: {
@@ -150,7 +150,7 @@ resource subnetfw 'Microsoft.Network/virtualNetworks/subnets@2020-11-01' existin
   name: '${vnethub.name}/AzureFirewallSubnet'
 }
 
-module azfirewall 'modules/vnet/firewall.bicep' = {
+module azfirewall 'vnet/firewall.bicep' = {
   scope: resourceGroup(fwrg.name)
   name: 'azfirewall'
   params: {
@@ -348,7 +348,7 @@ module azfirewall 'modules/vnet/firewall.bicep' = {
   } 
 }
 
-module routetable 'modules/vnet/routetable.bicep' = {
+module routetable 'vnet/routetable.bicep' = {
   scope: resourceGroup(aksrg.name)
   name: 'aks-udr'
   params: {
@@ -357,7 +357,7 @@ module routetable 'modules/vnet/routetable.bicep' = {
   } 
 }
 
-module routetableroutes 'modules/vnet/routetableroutes.bicep' = {
+module routetableroutes 'vnet/routetableroutes.bicep' = {
   scope: resourceGroup(aksrg.name)
   name: 'aks-udr-route'
   params: {
@@ -376,7 +376,7 @@ resource subnetaks 'Microsoft.Network/virtualNetworks/subnets@2020-11-01' existi
   name: '${vnetspoke.name}/AKS'
 }
 
-module aksIdentity 'modules/Identity/userassigned.bicep' = {
+module aksIdentity 'Identity/userassigned.bicep' = {
   scope: resourceGroup(aksrg.name)
   name: 'aksIdentity'
   params: {
@@ -384,7 +384,7 @@ module aksIdentity 'modules/Identity/userassigned.bicep' = {
   }
 }
 
-module aksCluster 'modules/aks/privateaks.bicep' = {
+module aksCluster 'aks/privateaks.bicep' = {
   scope: resourceGroup(aksrg.name)
   name: 'aksCluster'
   params: {
