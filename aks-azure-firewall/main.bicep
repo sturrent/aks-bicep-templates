@@ -150,6 +150,11 @@ resource subnetfw 'Microsoft.Network/virtualNetworks/subnets@2020-11-01' existin
   name: '${vnethub.name}/AzureFirewallSubnet'
 }
 
+// Variables
+var managementURL = 'management.azure.com'
+var loginURL = 'login.microsoftonline.com'
+var corewindowsURL = 'core.windows.net'
+
 module azfirewall 'vnet/firewall.bicep' = {
   scope: resourceGroup(fwrg.name)
   name: 'azfirewall'
@@ -224,11 +229,11 @@ module azfirewall 'vnet/firewall.bicep' = {
               targetFqdns: [
                 '*.azmk8s.io' 
                 'aksrepos.azurecr.io'
-                '*.blob.core.windows.net' 
+                '*.blob.${corewindowsURL}' 
                 'mcr.microsoft.com' 
                 '*.cdn.mscr.io' 
-                'management.azure.com' 
-                'login.microsoftonline.com' 
+                '${managementURL}' 
+                '${loginURL}' 
                 'packages.azure.com' 
                 'acs-mirror.azureedge.net' 
                 '*.opinsights.azure.com' 
@@ -278,11 +283,9 @@ module azfirewall 'vnet/firewall.bicep' = {
                 'security.ubuntu.com' 
                 'packages.microsoft.com' 
                 'azure.archive.ubuntu.com' 
-                'security.ubuntu.com' 
-                'hack32003.vault.azure.net' 
+                'security.ubuntu.com'  
                 '*.letsencrypt.org' 
                 'usage.projectcalico.org' 
-                'gov-prod-policy-data.trafficmanager.net' 
                 'vortex.data.microsoft.com'
               ]
               sourceAddresses: [
