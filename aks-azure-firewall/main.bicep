@@ -31,8 +31,8 @@ param spokeVNETdefaultSubnet object = {
 }
 
 // Variables
-var aksrgName = '${baseName}-RG'
-var fwrgName = '${baseName}-RG'
+var aksrgName = '${baseName}-rg'
+var fwrgName = 'fw-hub-rg'
 
 module aksrg 'resource-group/rg.bicep' = {
   name: aksrgName
