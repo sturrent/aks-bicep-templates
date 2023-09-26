@@ -394,6 +394,15 @@ module aksIdentity 'Identity/userassigned.bicep' = {
   }
 }
 
+module aksUdrNetworkContrib 'Identity/role.bicep' = {
+  scope: resourceGroup(aksrg.name)
+  name: 'aksUdrNetworkContrib'
+  params: {
+    principalId: aksIdentity.outputs.principalId
+    roleGuid: '4d97b98b-1d4f-4787-a291-c67834d212e7' //Network Contributor
+  }
+}
+
 module aksCluster 'aks/privateaks.bicep' = {
   scope: resourceGroup(aksrg.name)
   name: 'aksCluster'
